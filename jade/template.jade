@@ -1,0 +1,20 @@
+doctype html
+html
+
+  head
+
+    title My Open Ideas
+    meta( charset="utf-8" )
+    meta( name='viewport', content='width=device-width, initial-scale=1.0' )
+    
+    inlude ./style.jade
+
+    mixin idea(name, id)
+      a(href="/idea/#{id}"): .idea= name
+  
+  body
+
+    header
+      h1: a( href="/" ) My Open Ideas
+
+    block content

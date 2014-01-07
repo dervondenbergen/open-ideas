@@ -1,0 +1,9 @@
+extends ./template.jade
+
+block content
+  main
+      if ideas
+        each idea in ideas
+          +idea(idea.name, idea.id)
+      else
+        p.description There are currently no ideas

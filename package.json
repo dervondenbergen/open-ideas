@@ -1,0 +1,28 @@
+{
+  "name": "open-ideas",
+  "title": "Open Ideas",
+  "version": "0.0.1",
+  "description": "A application to display all cards of a list on Trello and also its description.",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dervondenbergen/open-ideas.git"
+  },
+  "keywords": [
+    "trello",
+    "ideas"
+  ],
+  "author": "Felix De Montis <felix@demont.is>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dervondenbergen/open-ideas/issues"
+  },
+  "dependencies": {
+    "jade": "~1.0.2",
+    "node-trello": "~0.1.4"
+  }
+}
