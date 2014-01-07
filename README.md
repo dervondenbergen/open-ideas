@@ -1,4 +1,4 @@
 open-ideas
 ==========
 
-TBA
+A list of Ideas of mine, which are open to everyone.
