@@ -1,7 +1,7 @@
 {
   "name": "open-ideas",
   "title": "Open Ideas",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A application to display all cards of a list on Trello and also its description.",
   "main": "server.js",
   "private": true,
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "jade": "~1.0.2",
-    "node-trello": "~0.1.4"
+    "node-trello": "~0.1.4",
+    "marked": "~0.3.0"
   }
 }

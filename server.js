@@ -1,13 +1,14 @@
 var http = require('http');
 var jade = require('jade');
 var url  = require('url');
+var marked = require('marked');
 var Trello = require('node-trello');
 
 var config = require('./config.js');
 
 var t = new Trello(config.trello.key, config.trello.token);
 
-var idUrl =  new RegExp('^/id/(?=.)');
+var idUrl =  new RegExp('^/idea/(?=.)');
 var listId = config.trello.listId;
 
 http.createServer(function(req, res) {
@@ -16,70 +17,47 @@ http.createServer(function(req, res) {
 
   if ( idUrl.test(pathname) ) {
 
-    ideaId = pathname.replace("/idea/", "");
+    ideaId = pathname.replace('/idea/', '');
 
-    var html;
-    var error;
-
-    t.get('/1/cards/' + ideaId,{ fields: 'name,desc,id'} , function (err, data) {
+    t.get('/1/cards/' + ideaId, { fields: 'name,desc,id'}, function (err, data) {
 
       if (err) {
         throw err;
-        error = true;
-        return;
       };
 
-      if (data.id != listId) {
-        error = true;
-        return;
-      };
+      if ( data == "The requested resource was not found.\n") {
+        res.writeHead(404, {'content-type': 'text/html'});
+        var html = jade.renderFile('./jade/404.jade');
+        res.end(html);
+      }
 
+      var options = { "name": data.name, "body": marked(data.desc), "pretty": true };
 
-      var options = { "name": data.name, "body": data.desc, "pretty": true };
-
-      html = jade.renderFile('./jade/idea.jade', options);
+      var html = jade.renderFile('./jade/idea.jade', options);
 
       res.writeHead(200, {'content-type': 'text/html'});
 
+      res.end(html);
+
     });
-
-    if ( error ) {
-
-      html = jade.renderFile('./jade/404.jade');
-      res.writeHead(400, {'content-type': 'text/html'});
-
-    };
-
-    res.end(html);
 
   } else if ( pathname == ( "/" || "" ) ) {
 
-    var html;
-    var error;
-
-    t.get('/1/lists/' + listId, function (err, data) {
+    t.get('/1/lists/' + listId, { fields: 'name', cards: 'open', card_fields: 'name'}, function (err, data) {
 
       if (err) {
         throw err;
-        error = true;
       };
 
-      var options = { "ideas": data.cards, "pretty": true };
+      var options = { ideas: data.cards, pretty: true };
 
-      html = jade.renderFile('./jade/index.jade', options);
+      var html = jade.renderFile('./jade/index.jade', options);
 
       res.writeHead(200, {'content-type': 'text/html'});
 
+      res.end(html);
+
     });
-
-    if ( error ) {
-
-      html = jade.renderFile('./jade/404.jade');
-      res.writeHead(400, {'content-type': 'text/html'});
-
-    };
-
-    res.end(html);
 
   } else {
 
